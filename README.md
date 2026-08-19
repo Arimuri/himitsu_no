@@ -15,6 +15,7 @@ mp4 を書き出すオフラインレンダラー群。
 core/      描画エンジン(全カット共通)
 cuts/      カット1本 = スクリプト1本(実行すると movie/current/ に mp4 を出力)
 tools/     構図スタディ・モック
+stems/     パート別ステム(wav)
 lyric.txt  歌詞
 ```
 
