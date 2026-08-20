@@ -1565,12 +1565,15 @@ def claw_machine(ox=0.0):
 def metronome(ox=0.0):
     """Metronome mid-swing."""
     f = []
-    # back face, corner rails, then the filled front face last (opaque body)
+    # closed five-face prism, back to front (opaque from any angle)
     f.append(q(0, [(ox - 0.55, 0, -0.3), (ox + 0.55, 0, -0.3),
                    (ox + 0.2, -1.9, -0.3), (ox - 0.2, -1.9, -0.3)]))
     for sx in (-1, 1):
-        f.append(seg((ox + 0.55 * sx, 0, 0.3), (ox + 0.55 * sx, 0, -0.3)))
-        f.append(seg((ox + 0.2 * sx, -1.9, 0.3), (ox + 0.2 * sx, -1.9, -0.3)))
+        f.append(q(1, [(ox + 0.55 * sx, 0, 0.3), (ox + 0.55 * sx, 0, -0.3),
+                       (ox + 0.2 * sx, -1.9, -0.3), (ox + 0.2 * sx, -1.9,
+                                                     0.3)]))
+    f.append(q(1, [(ox - 0.2, -1.9, 0.3), (ox + 0.2, -1.9, 0.3),
+                   (ox + 0.2, -1.9, -0.3), (ox - 0.2, -1.9, -0.3)]))
     f.append(q(2, [(ox - 0.55, 0, 0.3), (ox + 0.55, 0, 0.3),
                    (ox + 0.2, -1.9, 0.3), (ox - 0.2, -1.9, 0.3)]))
     a = 0.45

@@ -31,20 +31,19 @@ AMP = 0.5
 def metronome(f, ox, sc, arm):
     def S(v):
         return v * sc
-    # back face first, then the corner rails, then the filled front face:
-    # painted last, its fill hides the back/rail lines = opaque body
-    for zs in (S(-0.3),):
-        f.append(P.q(0, [(ox - S(0.55), 0, zs), (ox + S(0.55), 0, zs),
-                         (ox + S(0.2), S(-1.9), zs), (ox - S(0.2), S(-1.9),
-                                                      zs)]))
+    # closed five-face prism, back to front, so the body is opaque from
+    # any angle: back, both flanks, top, then the filled front face
+    zf, zb = S(0.3), S(-0.3)
+    xb, xt, yt = S(0.55), S(0.2), S(-1.9)
+    f.append(P.q(0, [(ox - xb, 0, zb), (ox + xb, 0, zb),
+                     (ox + xt, yt, zb), (ox - xt, yt, zb)]))
     for sx in (-1, 1):
-        f.append(P.seg((ox + S(0.55) * sx, 0, S(0.3)),
-                       (ox + S(0.55) * sx, 0, S(-0.3))))
-        f.append(P.seg((ox + S(0.2) * sx, S(-1.9), S(0.3)),
-                       (ox + S(0.2) * sx, S(-1.9), S(-0.3))))
-    f.append(P.q(2, [(ox - S(0.55), 0, S(0.3)), (ox + S(0.55), 0, S(0.3)),
-                     (ox + S(0.2), S(-1.9), S(0.3)), (ox - S(0.2), S(-1.9),
-                                                      S(0.3))]))
+        f.append(P.q(1, [(ox + xb * sx, 0, zf), (ox + xb * sx, 0, zb),
+                         (ox + xt * sx, yt, zb), (ox + xt * sx, yt, zf)]))
+    f.append(P.q(1, [(ox - xt, yt, zf), (ox + xt, yt, zf),
+                     (ox + xt, yt, zb), (ox - xt, yt, zb)]))
+    f.append(P.q(2, [(ox - xb, 0, zf), (ox + xb, 0, zf),
+                     (ox + xt, yt, zf), (ox - xt, yt, zf)]))
     zf = S(0.31)
     f.append(P.seg((ox, S(-0.35), zf),
                    (ox + S(1.35) * math.sin(arm),
