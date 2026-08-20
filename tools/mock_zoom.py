@@ -57,9 +57,11 @@ def build_scene(mode="ko", left_bld=None):
     """Random scatter, keeping the center corridor clear for Miku."""
     rng = random.Random(SEED)
     if mode == "ko":
-        # U-shape: sides + back, open toward the camera.  no waypoints in
-        # front of z=-8: near-camera pole tops project as stray sky wires
-        perim = [(-22.5, -8), (-22.5, -22), (-22.5, -36),
+        # U-shape: sides + back, open toward the camera.  the left flank
+        # runs one span toward the camera so its wires stay in frame (the
+        # eye sits right of center); near-pole overshoot flicker is gone
+        # since the 45px cap in scribble.jitter_line
+        perim = [(-22.5, 2), (-22.5, -8), (-22.5, -22), (-22.5, -36),
                  (0, -37), (22.5, -36), (22.5, -22), (22.5, -8)]
         items = list(P.power_ring(perim, h=6.0, sag=0.75, closed=False))
     else:
