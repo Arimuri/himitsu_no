@@ -1565,13 +1565,14 @@ def claw_machine(ox=0.0):
 def metronome(ox=0.0):
     """Metronome mid-swing."""
     f = []
-    for zs in (0.3, -0.3):
-        f.append(q(2 if zs > 0 else 0,
-                   [(ox - 0.55, 0, zs), (ox + 0.55, 0, zs),
-                    (ox + 0.2, -1.9, zs), (ox - 0.2, -1.9, zs)]))
+    # back face, corner rails, then the filled front face last (opaque body)
+    f.append(q(0, [(ox - 0.55, 0, -0.3), (ox + 0.55, 0, -0.3),
+                   (ox + 0.2, -1.9, -0.3), (ox - 0.2, -1.9, -0.3)]))
     for sx in (-1, 1):
         f.append(seg((ox + 0.55 * sx, 0, 0.3), (ox + 0.55 * sx, 0, -0.3)))
         f.append(seg((ox + 0.2 * sx, -1.9, 0.3), (ox + 0.2 * sx, -1.9, -0.3)))
+    f.append(q(2, [(ox - 0.55, 0, 0.3), (ox + 0.55, 0, 0.3),
+                   (ox + 0.2, -1.9, 0.3), (ox - 0.2, -1.9, 0.3)]))
     a = 0.45
     f.append(seg((ox, -0.35, 0.31), (ox + 1.35 * math.sin(a),
                                      -0.35 - 1.35 * math.cos(a), 0.31)))

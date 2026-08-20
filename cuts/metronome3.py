@@ -31,15 +31,20 @@ AMP = 0.5
 def metronome(f, ox, sc, arm):
     def S(v):
         return v * sc
-    for zs in (S(0.3), S(-0.3)):
-        f.append(P.q(2 if zs > 0 else 0,
-                     [(ox - S(0.55), 0, zs), (ox + S(0.55), 0, zs),
-                      (ox + S(0.2), S(-1.9), zs), (ox - S(0.2), S(-1.9), zs)]))
+    # back face first, then the corner rails, then the filled front face:
+    # painted last, its fill hides the back/rail lines = opaque body
+    for zs in (S(-0.3),):
+        f.append(P.q(0, [(ox - S(0.55), 0, zs), (ox + S(0.55), 0, zs),
+                         (ox + S(0.2), S(-1.9), zs), (ox - S(0.2), S(-1.9),
+                                                      zs)]))
     for sx in (-1, 1):
         f.append(P.seg((ox + S(0.55) * sx, 0, S(0.3)),
                        (ox + S(0.55) * sx, 0, S(-0.3))))
         f.append(P.seg((ox + S(0.2) * sx, S(-1.9), S(0.3)),
                        (ox + S(0.2) * sx, S(-1.9), S(-0.3))))
+    f.append(P.q(2, [(ox - S(0.55), 0, S(0.3)), (ox + S(0.55), 0, S(0.3)),
+                     (ox + S(0.2), S(-1.9), S(0.3)), (ox - S(0.2), S(-1.9),
+                                                      S(0.3))]))
     zf = S(0.31)
     f.append(P.seg((ox, S(-0.35), zf),
                    (ox + S(1.35) * math.sin(arm),
